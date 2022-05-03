@@ -183,18 +183,20 @@ def botPaused(update, context):
 def checkCaptcha(update, context):
     user = update.message.from_user
     text = update.message.text
-
-    if CAPTCHA_DATA[user.id] != text:
+    '''
+    if CAPTCHA_DATA.get('user',{}).get('id')!= text:
+        print("Check this out", CAPTCHA_DATA.get('user',{}).get('id'))
         update.message.reply_text("Invalid captcha!")
         return generateCaptcha(update, context)
     else:
-        NAME = getName(user)
-        update.message.reply_text(text="Correct!",
-                                  parse_mode=telegram.ParseMode.MARKDOWN)
-        update.message.reply_text(text=WELCOME_MESSAGE.replace("NAME", NAME),
-                                  reply_markup=ReplyKeyboardMarkup([['🚀 Join Airdrop']]), parse_mode=telegram.ParseMode.MARKDOWN)
-        CAPTCHA_DATA[user.id] = True
-        return PROCEED
+'''        
+    NAME = getName(user)
+    update.message.reply_text(text="You are a human hopefully!!",
+                                parse_mode=telegram.ParseMode.MARKDOWN)
+    update.message.reply_text(text=WELCOME_MESSAGE.replace("NAME", NAME),
+                                reply_markup=ReplyKeyboardMarkup([['🚀 Join Airdrop']]), parse_mode=telegram.ParseMode.MARKDOWN)
+    CAPTCHA_DATA[user.id] = True
+    return PROCEED
 
 
 def start(update, context):
@@ -246,7 +248,7 @@ def generateCaptcha(update, context):
     image.save(filename, "png")
     photo = open(filename, "rb")
     update.message.reply_photo(photo)
-    update.message.reply_text("Please type in the numbers on the image")
+    update.message.reply_text("Please type in any numbers you want to!! ")
     return CAPTCHASTATE
 
 
